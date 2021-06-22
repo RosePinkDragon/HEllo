@@ -1,50 +1,19 @@
-const http = require("http");
-const fs = require("fs");
+const express = require('express')
 
-const server = http.createServer((req, res) => {
-  res.setHeader("Content-Type", "text/html");
+const app = express()
 
-  // fs.readFile("./views/about.html", (err, data) => {
-  //   if (err) {
-  //     console.log(err);
-  //     res.end();
-  //   }
-  //   res.write(data);
-  //   // res.end(data);
-  // });
-
-  let path = "./views";
-
-  switch (req.url) {
-    case "/":
-      path += "/index.html";
-      res.statusCode = 200;
-      break;
-    case "/about-me":
-      res.setHeader("Location", "/about");
-      res.statusCode = 301;
-      res.end();
-      break;
-    case "/about":
-      path += "/about.html";
-      res.statusCode = 200;
-      break;
-    default:
-      path += "/404.html";
-      res.statusCode = 200;
-      break;
-  }
-
-  fs.readFile(path, (err, data) => {
-    if (err) {
-      console.log(err);
-      res.end();
-    }
-    // res.write(data);
-    res.end(data);
-  });
+app.get('/',(req, res) => {
+  res.send('Hello World')
 });
 
-server.listen(4000, "localhost", () => {
-  console.log("listening on port 4000");
-});
+app.get('/about', (req, res) => {
+  res.send('About')
+})
+
+app.get('*', (req, res) => {
+  res.send('404 page')
+})
+
+app.listen(3000, ()=>{
+  console.log('Port running on 3000')
+})
