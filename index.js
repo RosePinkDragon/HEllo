@@ -1,19 +1,35 @@
-const express = require('express')
+const express = require("express");
 
-const app = express()
+const app = express();
 
-app.get('/',(req, res) => {
-  res.send('Hello World')
+app.set("view engine", "ejs");
+
+app.get("/", (req, res) => {
+  const blogs = [
+    {
+      title: "This Title One",
+      snippet: "This is the snippet",
+    },
+    {
+      title: "This Title Two",
+      snippet: "This is the snippet",
+    },
+  ];
+  res.render("index", { title: "Home Page", blogs });
 });
 
-app.get('/about', (req, res) => {
-  res.send('About')
-})
+app.get("/about", (req, res) => {
+  res.render("about", { title: "About Page" });
+});
 
-app.get('*', (req, res) => {
-  res.send('404 page')
-})
+app.get("/about-me", (req, res) => {
+  res.redirect("/about");
+});
 
-app.listen(3000, ()=>{
-  console.log('Port running on 3000')
-})
+app.get("*", (req, res) => {
+  res.render("404", { title: "Lost Page" });
+});
+
+app.listen(3000, () => {
+  console.log("Port running on 3000");
+});
