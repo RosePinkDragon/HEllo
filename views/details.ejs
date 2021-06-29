@@ -1,0 +1,27 @@
+<%- include ("./partials/head.ejs") %>
+
+<div class="details content">
+  <h1><%= blog.title %></h1>
+  <p><%= blog.snippet %></p>
+  <p><%= blog.body %></p>
+    <img
+      class="delete"
+      data-doc="<%= blog._id %>"
+      src="/images/trash.svg"
+      alt="Guess Has Deleted Itself?"
+    />
+  </div>
+</div>
+
+<script>
+  const trashcan = document.querySelector('img.delete')
+  trashcan.addEventListener("click",(e) => {
+    fetch(`blogs/${trashcan.dataset.doc}`,{
+      method: 'DELETE'
+    }).then(res=>window.location = '/blogs')
+    .catch(err=> console.log(err))
+    
+  })
+</script>
+
+<%- include ("./partials/footer.ejs") %>
