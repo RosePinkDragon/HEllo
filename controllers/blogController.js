@@ -23,9 +23,35 @@ const blog_create_post = (req, res) => {
     .catch((err) => console.log(err));
 };
 
+const blog_update_post = async (req, res) => {
+  console.log(req);
+  const blog = await Blog.findById(req.params.id);
+  if (blog) {
+    console.log(blog);
+    blog.title = req.body.title || blog.title;
+    blog.snippet = req.body.snippet || blog.snippet;
+    blog.body = req.body.body || blog.body;
+
+    console.log(blog);
+
+    const updatedBlog = blog.save();
+    if (updatedBlog) {
+      res.json({ updatedBlog });
+    } else {
+      console.log("here error2");
+      res.send({ error: "Blog Found but Update Error" });
+    }
+  } else {
+    console.log("here error");
+    res.send({ error: "Blog Not Found" });
+  }
+};
+
 const blog_delete = (req, res) => {
+  console.log(req.params.id);
   Blog.findByIdAndDelete(req.params.id)
-    .then(res.redirect("/blogs"))
+
+    .then(res.json({ redirect: "/blogs" }))
     .catch((err) => console.log(err));
 };
 
@@ -34,5 +60,6 @@ module.exports = {
   blog_details,
   blog_create,
   blog_create_post,
+  blog_update_post,
   blog_delete,
 };

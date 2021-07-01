@@ -16,11 +16,11 @@
 <script>
   const trashcan = document.querySelector('img.delete')
   trashcan.addEventListener("click",(e) => {
-    fetch(`blogs/${trashcan.dataset.doc}`,{
+    fetch(`/blogs/${trashcan.dataset.doc}`,{
       method: 'DELETE'
-    }).then(res=>window.location = '/blogs')
+    }).then(res=>res.json())
+    .then((data)=> window.location.pathname= data.redirect)
     .catch(err=> console.log(err))
-    
   })
 </script>
 
