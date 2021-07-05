@@ -1,15 +1,46 @@
 <%- include ("./partials/head.ejs") %>
 
 <div class="create-blog content">
-  <form action="/blogs" method="POST">
+  <form>
     <label for="title">Blog Title: </label>
     <input type="text" name="title" id="title" required />
+    <div class="title error"></div>
     <label for="snippet">Blog Snippet: </label>
     <input type="text" name="snippet" id="snippet" required />
+    <div class="snippet error"></div>
     <label for="body">Blog Body: </label>
     <textarea name="body" id="body" required></textarea>
+    <div class="body error"></div>
     <button>Submit</button>
   </form>
 </div>
+
+<script>
+  const form = document.querySelector("form");
+
+  // error tags
+  const titleError = document.querySelector(".title.error");
+  const snippetError = document.querySelector(".snippet.error");
+  const bodyError = document.querySelector(".body.error");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    titleError.textContent = "";
+    snippetError.textContent = "";
+    bodyError.textContent = "";
+
+    const title = form.title.value;
+    const snippet = form.snippet.value;
+    const body = form.body.value;
+
+    if (!title) {
+      bodyError.textContent = "Please Fill in titel";
+    }
+    if (!snippet || !body) {
+      bodyError.textContent = "Please Fill in data";
+    }
+  });
+</script>
 
 <%- include ("./partials/footer.ejs") %>

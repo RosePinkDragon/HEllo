@@ -2,12 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const blogRoutes = require("./routes/blogRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
 require("dotenv").config();
 
 app.use(express.static("public"));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
@@ -28,6 +30,7 @@ mongoose
 app.set("view engine", "ejs");
 
 app.use("/blogs", blogRoutes);
+app.use(userRoutes);
 
 app.get("/", (req, res) => {
   res.redirect("/blogs");

@@ -1,0 +1,18 @@
+<%- include("./partials/head.ejs") %>
+
+<div class="create-blog content">
+  <form action="/sign-up">
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required />
+    <div class="email error"></div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required />
+    <div class="password error"></div>
+    <label for="c_password">Confirm Password:</label>
+    <input type="password" id="c_password" name="c_password" required />
+    <div class="c_password error"></div>
+    <button>Submit</button>
+  </form>
+</div>
+
+<%- include("./partials/footer.ejs") %>

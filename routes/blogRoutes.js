@@ -1,9 +1,10 @@
 const { Router } = require("express");
 const blogController = require("../controllers/blogController");
+const requireUser = require("../middlewares/requireUser");
 
 const router = Router();
 
-router.get("/create", blogController.blog_create);
+router.get("/create", requireUser, blogController.blog_create);
 router.get("/", blogController.blog_index);
 router.post("/", blogController.blog_create_post);
 router.put("/:id", blogController.blog_update_post);

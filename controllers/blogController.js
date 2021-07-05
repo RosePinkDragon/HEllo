@@ -1,5 +1,21 @@
 const Blog = require("../Models/BlogModel");
 
+const handleErrors = (err) => {
+  let errors = {
+    title: "",
+    snippet: "",
+    body: "",
+  };
+
+  if (err.message.includes("validation failed")) {
+    Object.values(err.errors).forEach(({ properties }) => {
+      errors[properties.path] = properties.message;
+    });
+  }
+
+  return errors;
+};
+
 const blog_index = (req, res) => {
   Blog.find()
     .sort({ createdAt: -1 })
@@ -19,12 +35,16 @@ const blog_create = (req, res) => {
 
 const blog_create_post = (req, res) => {
   Blog.create(req.body)
-    .then(res.redirect("/blogs"))
-    .catch((err) => console.log(err));
+    .then((result) => {
+      res.redirect("/blogs");
+    })
+    .catch((err) => {
+      const errors = handleErrors(err);
+      res.json({ errors });
+    });
 };
 
 const blog_update_post = async (req, res) => {
-  console.log(req);
   const blog = await Blog.findById(req.params.id);
   if (blog) {
     console.log(blog);
@@ -32,9 +52,9 @@ const blog_update_post = async (req, res) => {
     blog.snippet = req.body.snippet || blog.snippet;
     blog.body = req.body.body || blog.body;
 
-    console.log(blog);
+    const updatedBlog = await blog.save();
 
-    const updatedBlog = blog.save();
+    console.log(updatedBlog);
     if (updatedBlog) {
       res.json({ updatedBlog });
     } else {
