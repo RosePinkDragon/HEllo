@@ -7,6 +7,10 @@ const handleErrors = (err) => {
     body: "",
   };
 
+  if (err.code === 11000) {
+    errors.title = "That Title is already taken";
+  }
+
   if (err.message.includes("validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
@@ -35,10 +39,11 @@ const blog_create = (req, res) => {
 
 const blog_create_post = (req, res) => {
   Blog.create(req.body)
-    .then((result) => {
-      res.redirect("/blogs");
+    .then((blog) => {
+      res.json({ blog: "Blog Create Successfully" });
     })
     .catch((err) => {
+      console.log(err);
       const errors = handleErrors(err);
       res.json({ errors });
     });

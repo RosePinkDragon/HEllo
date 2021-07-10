@@ -3,13 +3,13 @@
 <div class="create-blog content">
   <form>
     <label for="title">Blog Title: </label>
-    <input type="text" name="title" id="title" required />
+    <input type="text" name="title" id="title" />
     <div class="title error"></div>
     <label for="snippet">Blog Snippet: </label>
-    <input type="text" name="snippet" id="snippet" required />
+    <input type="text" name="snippet" id="snippet" />
     <div class="snippet error"></div>
     <label for="body">Blog Body: </label>
-    <textarea name="body" id="body" required></textarea>
+    <textarea name="body" id="body"></textarea>
     <div class="body error"></div>
     <button>Submit</button>
   </form>
@@ -33,12 +33,26 @@
     const title = form.title.value;
     const snippet = form.snippet.value;
     const body = form.body.value;
+    try {
+      const res = await fetch("/blogs", {
+        method: "POST",
+        body: JSON.stringify({ title, snippet, body }),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (!title) {
-      bodyError.textContent = "Please Fill in titel";
-    }
-    if (!snippet || !body) {
-      bodyError.textContent = "Please Fill in data";
+      const data = await res.json();
+
+      if (data.errors) {
+        titleError.textContent = data.errors.title;
+        snippetError.textContent = data.errors.snippet;
+        bodyError.textContent = data.errors.body;
+      }
+
+      if (data.blog) {
+        location.assign("/");
+      }
+    } catch (err) {
+      console.log(err);
     }
   });
 </script>

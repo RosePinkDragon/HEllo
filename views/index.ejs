@@ -1,11 +1,14 @@
 <%- include ("./partials/head.ejs") %>
 
 <div class="blogs content">
-  <h2>Home Page</h2>
-
+  <h1>Home Page</h1>
+  <br />
   <% if(blogs.length > 0) { %> <%blogs.forEach(blog => { %>
-  <a class="" href="/blogs/<%=blog._id%>"><%=blog.title %> </a>
+  <a class="" href="/blogs/<%=blog._id%>">
+    <h1><%=blog.title %></h1>
+  </a>
   <h3><%= blog.snippet %></h3>
+  <br />
   <% });%> <%} else {%>
   <h1>No blog to display</h1>
   <% } %>

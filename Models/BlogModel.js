@@ -17,5 +17,15 @@ const blogSchema = new Schema({
   },
 });
 
+blogSchema.pre("save", async function (next) {
+  console.log("New Blog is being saved");
+  next();
+});
+
+blogSchema.post("save", function (doc, next) {
+  console.log("Blog is saved successfully");
+  next();
+});
+
 const Blog = mongoose.model("Blog", blogSchema);
 module.exports = Blog;
