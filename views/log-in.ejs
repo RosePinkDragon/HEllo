@@ -1,15 +1,21 @@
-<%- include("./partials/head.ejs") %>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
 
-<div class="create-blog content">
-  <form action="/log-in">
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" required />
-    <div class="email error"></div>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required />
-    <div class="password error"></div>
-    <button>Submit</button>
-  </form>
-</div>
+  <body>
+    <%- include("./partials/nav.ejs") %>
 
-<%- include("./partials/footer.ejs") %>
+    <div class="create-blog content">
+      <form action="" method="">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required />
+        <div class="email error"></div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <div class="password error"></div>
+        <button>Submit</button>
+      </form>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+  </body>
+</html>

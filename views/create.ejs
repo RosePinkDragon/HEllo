@@ -1,60 +1,69 @@
-<%- include ("./partials/head.ejs") %>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
 
-<div class="create-blog content">
-  <form>
-    <label for="title">Blog Title: </label>
-    <input type="text" name="title" id="title" />
-    <div class="title error"></div>
-    <label for="snippet">Blog Snippet: </label>
-    <input type="text" name="snippet" id="snippet" />
-    <div class="snippet error"></div>
-    <label for="body">Blog Body: </label>
-    <textarea name="body" id="body"></textarea>
-    <div class="body error"></div>
-    <button>Submit</button>
-  </form>
-</div>
+  <body>
+    <%- include("./partials/nav.ejs") %>
 
-<script>
-  const form = document.querySelector("form");
+    <div class="create-blog content">
+      <form action="/blogs" method="POST">
+        <label for="title">Blog title:</label>
+        <input type="text" id="title" name="title" required />
+        <div class="title error"></div>
+        <label for="snippet">Blog snippet:</label>
+        <input type="text" id="snippet" name="snippet" required />
+        <div class="snippet error"></div>
+        <label for="body">Blog body:</label>
+        <textarea id="body" name="body" required></textarea>
+        <div class="body error"></div>
+        <div class="user error"></div>
+        <button>Submit</button>
+      </form>
+    </div>
 
-  // error tags
-  const titleError = document.querySelector(".title.error");
-  const snippetError = document.querySelector(".snippet.error");
-  const bodyError = document.querySelector(".body.error");
+    <%- include("./partials/footer.ejs") %>
+    <script>
+      const form = document.querySelector("form");
+      const titleError = document.querySelector(".title.error");
+      const snippetError = document.querySelector(".snippet.error");
+      const bodyError = document.querySelector(".body.error");
+      const userError = document.querySelector(".user.error");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        //reset errors
+        titleError.textContent = "";
+        snippetError.textContent = "";
+        bodyError.textContent = "";
+        userError.textContent = "";
 
-    titleError.textContent = "";
-    snippetError.textContent = "";
-    bodyError.textContent = "";
+        // get values
+        const title = form.title.value;
+        const snippet = form.snippet.value;
+        const body = form.body.value;
 
-    const title = form.title.value;
-    const snippet = form.snippet.value;
-    const body = form.body.value;
-    try {
-      const res = await fetch("/blogs", {
-        method: "POST",
-        body: JSON.stringify({ title, snippet, body }),
-        headers: { "Content-Type": "application/json" },
+        if (!title || !snippet || !body) {
+          bodyError.textContent = `Please Fill in all the Feilds!!`;
+        } else {
+          try {
+            const res = await fetch("/blogs", {
+              method: "POST",
+              body: JSON.stringify({ title, snippet, body }),
+              headers: { "Content-Type": "application/json" },
+            });
+            const data = await res.json();
+            if (data.errors) {
+              titleError.textContent = data.errors.title;
+              snippetError.textContent = data.errors.snippet;
+              bodyError.textContent = data.errors.body;
+            }
+            if (data.blog) {
+              location.assign("/blogs");
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        }
       });
-
-      const data = await res.json();
-
-      if (data.errors) {
-        titleError.textContent = data.errors.title;
-        snippetError.textContent = data.errors.snippet;
-        bodyError.textContent = data.errors.body;
-      }
-
-      if (data.blog) {
-        location.assign("/");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  });
-</script>
-
-<%- include ("./partials/footer.ejs") %>
+    </script>
+  </body>
+</html>

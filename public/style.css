@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   text-decoration: none;
-  color: rgb(214, 91, 91);
+  color: #222;
 }
 
 body {
@@ -72,28 +72,6 @@ footer {
 .content {
   margin-left: 20px;
 }
-
-/** details styles */
-.details {
-  position: relative;
-  max-width: 500px;
-}
-.delete {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: fit-content;
-  max-width: 30px;
-  border-radius: 5px;
-  padding: 8px;
-  transform: translateY(-50%);
-}
-.delete:hover {
-  cursor: pointer;
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
-}
-
 .create-blog form {
   max-width: 400px;
   margin: 0 auto;
@@ -114,7 +92,7 @@ textarea {
 }
 
 .error {
-  color: red;
+  color: crimson;
 }
 
 .logbtn {
@@ -144,22 +122,42 @@ button {
   cursor: pointer;
 }
 
-/* blogs styles */
-/** index styles */
-
-a.blog,
-.blog {
-  padding: 10px 20px 10px 20px;
-  margin: 15px 0px;
-  border-radius: 5px;
-  box-shadow: 5px 10px 15px #ececec;
-  width: 100%;
-  max-width: 500px;
-  transition: all 0.8ms ease-in;
+a h3 {
+  color: black;
 }
 
-.blog:hover {
+a:hover h3 {
   color: crimson;
-  padding: 10px 20px 10px 14px;
-  border-left: 6px solid crimson;
+}
+
+.blog {
+  margin: 10px;
+  padding: 10px 5px;
+  position: relative;
+}
+
+.blog-title {
+  color: crimson;
+}
+
+.blog-snippet {
+  font-weight: bolder;
+  font-size: 1.5rem;
+  margin: 0px 0px 10px;
+}
+
+.login-box p {
+  text-transform: lowercase;
+}
+.login-box {
+  display: flex;
+  text-transform: capitalize;
+}
+
+img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-width: 30px;
+  width: 100%;
 }
