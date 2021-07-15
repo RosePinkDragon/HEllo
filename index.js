@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
+const { checkUser } = require("./middlewares/userMiddlewares");
 
 const app = express();
 
@@ -30,6 +31,8 @@ mongoose
   .catch((err) => console.log(err));
 
 app.set("view engine", "ejs");
+
+app.get("*", checkUser);
 
 app.use("/blogs", blogRoutes);
 app.use(userRoutes);

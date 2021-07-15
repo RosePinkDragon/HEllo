@@ -8,6 +8,14 @@ const handleErrors = (err) => {
     errors.email = "That Email is already Taken";
   }
 
+  if (err.message === "User Not Found") {
+    errors.password = "User Not Found";
+  }
+
+  if (err.message === "Incorrect Details") {
+    errors.password = "Incorrect Details";
+  }
+
   if (err.message.includes("validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
@@ -58,8 +66,10 @@ const user_login_post = async (req, res) => {
   }
 };
 
-const user_log_out = (req, res) => {
+const user_log_out = (req, res, next) => {
   res.cookie("BlogCookie", "", { httpOnly: true, maxAge: 1 });
+  res.redirect("/log-in");
+  next();
 };
 
 module.exports = {

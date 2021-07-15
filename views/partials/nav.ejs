@@ -5,11 +5,21 @@
   </div>
   <div>
     <div class="info">
+      <% if (user) { %>
+      <h3 class="login-box">
+        Welcome,&nbsp;
+        <p><%= user.email %></p>
+      </h3>
+      <a href="/log-out" class="logbtn">Log Out</a>
+      <% } else { %>
       <a href="/log-in" class="logbtn">Log In</a>
+      <% } %>
     </div>
     <ul>
       <li><a href="/blogs" class="link">Blogs</a></li>
+      <% if (!user) { %>
       <li><a href="/sign-up" class="link">Sign Up</a></li>
+      <% } %>
       <li><a href="/about" class="link">About</a></li>
       <li><a href="/blogs/create" class="link">New Blog</a></li>
     </ul>
